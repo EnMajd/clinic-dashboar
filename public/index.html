@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>عيادة التصوير الشعاعي المتقدم | د. أحمد الخطيب</title>
+    <meta name="description"
+        content="أحدث تقنيات التصوير الشعاعي مع خبرة د. أحمد الخطيب - احجز موعدك عبر الواتساب أو التلغرام">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <!-- ========== FLOATING CONTACT BUTTONS ========== -->
+    <div class="floating-contact">
+        <button class="floating-toggle" id="floatingToggle" aria-label="خيارات التواصل">
+            <i class="fas fa-comment-dots"></i>
+        </button>
+        <div class="floating-options" id="floatingOptions">
+            <a href="https://wa.me/963933724320?text=مرحباً%20د.%20أحمد،%20لدي%20استفسار" target="_blank"
+                class="floating-btn floating-whatsapp" aria-label="تواصل واتساب" title="واتساب">
+                <i class="fab fa-whatsapp"></i>
+                <span>واتساب</span>
+            </a>
+            <a href="https://t.me/+963933724320" target="_blank" class="floating-btn floating-telegram"
+                aria-label="تواصل تلغرام" title="تلغرام">
+                <i class="fab fa-telegram-plane"></i>
+                <span>تلغرام</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- ========== SCROLL TO TOP ========== -->
+    <button class="scroll-top" id="scrollTop" aria-label="العودة للأعلى">
+        <i class="fas fa-chevron-up"></i>
+    </button>
+
+    <!-- ========== HEADER ========== -->
+    <header class="header" id="header">
+        <div class="container header-inner">
+            <div class="logo">
+                <i class="fas fa-x-ray"></i>
+                <span>عيادة التصوير الشعاعي</span>
+            </div>
+
+            <nav class="nav-links" id="navLinks">
+                <a href="#home" class="nav-link active">الرئيسية</a>
+                <a href="#about" class="nav-link">عن الطبيب</a>
+                <a href="#services" class="nav-link">الخدمات</a>
+                <a href="#booking" class="nav-link">حجز موعد</a>
+                <a href="#upload" class="nav-link">تحليل الأشعة</a>
+                <a href="#contact" class="nav-link">تواصل معنا</a>
+            </nav>
+
+            <div class="header-actions">
+                <button class="theme-toggle" id="themeToggle" aria-label="تبديل الوضع الليلي">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <div class="hamburger" id="hamburger" aria-label="القائمة" role="button" tabindex="0">
+                    <span></span><span></span><span></span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <div class="mobile-menu-header">
+            <span class="mobile-menu-title">القائمة الرئيسية</span>
+            <button id="closeMobileMenu" aria-label="إغلاق القائمة">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <a href="#home"><i class="fas fa-home"></i> الرئيسية</a>
+        <a href="#about"><i class="fas fa-user-md"></i> عن الطبيب</a>
+        <a href="#services"><i class="fas fa-microscope"></i> الخدمات</a>
+        <a href="#booking"><i class="fas fa-calendar-check"></i> حجز موعد</a>
+        <a href="#upload"><i class="fas fa-upload"></i> تحليل الأشعة بالذكاء الاصطناعي</a>
+        <a href="#contact"><i class="fab fa-whatsapp"></i> تواصل معنا</a>
+        <div class="mobile-menu-social">
+            <a href="https://wa.me/963933724320" target="_blank" class="mobile-wa-btn">
+                <i class="fab fa-whatsapp"></i> واتساب
+            </a>
+            <a href="https://t.me/+963933724320" target="_blank" class="mobile-tg-btn">
+                <i class="fab fa-telegram-plane"></i> تلغرام
+            </a>
+        </div>
+    </div>
+    <div class="mobile-menu-overlay" id="mobileOverlay"></div>
+
+    <main>
+        <!-- ========== HERO SECTION ========== -->
+        <section class="hero" id="home">
+            <div class="hero-overlay"></div>
+            <div class="hero-content fade-up">
+                <span class="hero-badge">⚕️ عيادة متخصصة معتمدة</span>
+                <h1 class="hero-title">أحدث تقنيات <span class="highlight">التصوير الشعاعي</span></h1>
+                <p class="hero-subtitle">خبرة عالية في قراءة وتحليل صور الأشعة باستخدام أحدث الأجهزة الطبية والذكاء
+                    الاصطناعي</p>
+                <div class="hero-buttons">
+                    <a href="#booking" class="btn btn-primary">احجز موعدك الآن <i class="fas fa-arrow-left"></i></a>
+                    <a href="https://wa.me/963933724320?text=مرحباً%20د.%20أحمد،%20أود%20الاستفسار%20عن%20الخدمات"
+                        target="_blank" class="btn btn-whatsapp-hero">
+                        <i class="fab fa-whatsapp"></i> استفسر عبر الواتساب
+                    </a>
+                </div>
+                <div class="hero-stats">
+                    <div class="stat"><i class="fas fa-calendar-alt"></i> <span>+12</span> سنة خبرة</div>
+                    <div class="stat"><i class="fas fa-user-check"></i> <span>5000+</span> مريض</div>
+                    <div class="stat"><i class="fas fa-microchip"></i> <span>AI</span> تقنية حديثة</div>
+                </div>
+            </div>
+            <div class="hero-wave">
+                <svg viewBox="0 0 1440 120" preserveAspectRatio="none">
+                    <path d="M0,60 C360,120 720,0 1440,60 L1440,120 L0,120 Z" fill="var(--bg-light)" />
+                </svg>
+            </div>
+        </section>
+
+        <!-- ========== ABOUT SECTION ========== -->
+        <section class="about" id="about">
+            <div class="container">
+                <div class="about-grid">
+                    <div class="about-image slide-right">
+                        <img src="https://images.pexels.com/photos/5327651/pexels-photo-5327651.jpeg?w=600&auto=compress"
+                            alt="دكتور أحمد الخطيب - استشاري الأشعة" loading="lazy">
+                        <div class="experience-badge">
+                            <span>12+</span> سنة خبرة
+                        </div>
+                        <div class="about-image-dots"></div>
+                    </div>
+                    <div class="about-text slide-left">
+                        <span class="section-badge">من نحن</span>
+                        <h2>د. أحمد الخطيب <span class="highlight">استشاري التصوير الشعاعي</span></h2>
+                        <p class="about-desc">
+                            خبرة تمتد لأكثر من 12 عاماً في قراءة وتحليل صور الأشعة (X-Ray، CT، MRI).
+                            يتميز د. أحمد بالدقة المتناهية في التشخيص واستخدام أحدث التقنيات الطبية والذكاء الاصطناعي
+                            لضمان أفضل رعاية صحية للمرضى.
+                        </p>
+                        <div class="about-features">
+                            <div class="feature"><i class="fas fa-certificate"></i> دقة تشخيصية 99%</div>
+                            <div class="feature"><i class="fas fa-microscope"></i> أحدث أجهزة التصوير</div>
+                            <div class="feature"><i class="fas fa-brain"></i> تحليلات معززة بالذكاء الاصطناعي</div>
+                        </div>
+                        <div class="about-cta">
+                            <a href="#booking" class="btn btn-primary">احجز موعدك الآن <i
+                                    class="fas fa-calendar-plus"></i></a>
+                            <a href="https://t.me/+963933724320" target="_blank" class="btn btn-telegram-outline">
+                                <i class="fab fa-telegram-plane"></i> تواصل عبر التلغرام
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== SERVICES SECTION ========== -->
+        <section class="services" id="services">
+            <div class="container">
+                <div class="section-header fade-up">
+                    <span class="section-badge">خدماتنا</span>
+                    <h2>خدمات تصوير متكاملة <span class="highlight">بدقة عالية</span></h2>
+                    <p>نقدم أحدث تقنيات التصوير الشعاعي مع تقارير سريعة ودقيقة</p>
+                </div>
+                <div class="services-grid">
+                    <div class="service-card fade-up">
+                        <div class="service-icon"><i class="fas fa-bone"></i></div>
+                        <h3>الأشعة السينية (X-Ray)</h3>
+                        <p>تصوير فوري للعظام والمفاصل والرئة بأقل جرعة إشعاعية وبدقة متناهية.</p>
+                    </div>
+                    <div class="service-card fade-up">
+                        <div class="service-icon"><i class="fas fa-cube"></i></div>
+                        <h3>التصوير الطبقي (CT Scan)</h3>
+                        <p>مقاطع عالية الدقة لكامل الجسم للكشف عن أدق التفاصيل الطبية.</p>
+                    </div>
+                    <div class="service-card fade-up">
+                        <div class="service-icon"><i class="fas fa-magnet"></i></div>
+                        <h3>الرنين المغناطيسي (MRI)</h3>
+                        <p>فحص دقيق للأنسجة الرخوة والدماغ بدون أي إشعاعات ضارة نهائياً.</p>
+                    </div>
+                    <div class="service-card fade-up">
+                        <div class="service-icon"><i class="fas fa-hand-holding-heart"></i></div>
+                        <h3>الإيكو (Ultrasound)</h3>
+                        <p>تصوير آمن للحوامل والأعضاء الداخلية باستخدام الموجات فوق الصوتية.</p>
+                    </div>
+                    <div class="service-card fade-up">
+                        <div class="service-icon"><i class="fas fa-female"></i></div>
+                        <h3>تصوير الثدي الشعاعي</h3>
+                        <p>كشف مبكر لأورام الثدي بدقة عالية مع راحة وخصوصية تامة للمريضة.</p>
+                    </div>
+                    <div class="service-card fade-up">
+                        <div class="service-icon"><i class="fas fa-tooth"></i></div>
+                        <h3>الأشعة السنية</h3>
+                        <p>صور بانورامية دقيقة لتشخيص كامل لمشاكل الأسنان واللثة والفكين.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== BOOKING SECTION ========== -->
+        <section class="booking" id="booking">
+            <div class="container">
+                <div class="section-header fade-up">
+                    <span class="section-badge">حجز موعد</span>
+                    <h2>احجز موعدك <span class="highlight">بكل سهولة</span></h2>
+                    <p>املأ البيانات أو تواصل مباشرة عبر الواتساب أو التلغرام</p>
+                </div>
+                <div class="booking-wrapper">
+                    <form class="booking-form fade-up" id="bookingForm">
+                        <h3 class="form-title"><i class="fas fa-clipboard-list"></i> نموذج الحجز</h3>
+                        <div class="input-group">
+                            <label><i class="fas fa-user"></i> الاسم الكامل</label>
+                            <input type="text" id="fullName" placeholder="أدخل اسمك الثلاثي" required>
+                        </div>
+                        <div class="input-group">
+                            <label><i class="fas fa-phone-alt"></i> رقم الهاتف (للتواصل عبر الواتساب)</label>
+                            <input type="tel" id="phone" placeholder="09xxxxxxxx" required dir="ltr">
+                        </div>
+                        <div class="input-group">
+                            <label><i class="fas fa-stethoscope"></i> الخدمة المطلوبة</label>
+                            <select id="serviceType" required>
+                                <option value="">اختر الخدمة</option>
+                                <option>الأشعة السينية (X-Ray)</option>
+                                <option>التصوير الطبقي (CT)</option>
+                                <option>الرنين المغناطيسي (MRI)</option>
+                                <option>الإيكو (Ultrasound)</option>
+                                <option>تصوير الثدي الشعاعي</option>
+                                <option>الأشعة السنية</option>
+                            </select>
+                        </div>
+                        <div class="row-2">
+                            <div class="input-group">
+                                <label><i class="fas fa-calendar-day"></i> التاريخ</label>
+                                <input type="date" id="date" required>
+                            </div>
+                            <div class="input-group">
+                                <label><i class="fas fa-clock"></i> الوقت</label>
+                                <input type="time" id="time" required>
+                            </div>
+                        </div>
+                        <div class="booking-buttons">
+                            <button type="button" id="whatsappBookBtn" class="btn btn-whatsapp btn-full">
+                                <i class="fab fa-whatsapp"></i> حجز عبر الواتساب
+                            </button>
+                            <button type="button" id="telegramBookBtn" class="btn btn-telegram btn-full">
+                                <i class="fab fa-telegram-plane"></i> حجز عبر التلغرام
+                            </button>
+                        </div>
+                        <p class="booking-note">سيتم تأكيد الموعد خلال 24 ساعة عبر رسالة على المنصة المختارة</p>
+                    </form>
+                    <div class="booking-image slide-left">
+                        <img src="https://images.pexels.com/photos/40568/medical-appointment-doctor-healthcare-40568.jpeg?w=600&auto=compress"
+                            alt="حجز موعد في العيادة" loading="lazy">
+                        <div class="booking-image-card">
+                            <i class="fas fa-headset"></i>
+                            <span>دعم مباشر عبر الواتساب والتلغرام</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== AI UPLOAD SECTION ========== -->
+        <section class="upload" id="upload">
+            <div class="container">
+                <div class="section-header fade-up">
+                    <span class="section-badge">التحليل بالذكاء الاصطناعي</span>
+                    <h2>تحليل صور الأشعة <span class="highlight">باستخدام AI</span></h2>
+                    <p>ارفع صورة الأشعة وسيقدم الذكاء الاصطناعي تقريراً أولياً فورياً</p>
+                </div>
+                <div class="upload-container fade-up">
+                    <div class="upload-area" id="uploadArea">
+                        <input type="file" id="xrayFile" accept="image/jpeg,image/png,image/jpg,image/dicom" hidden>
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <p>اضغط أو اسحب صورة الأشعة هنا</p>
+                        <span id="fileName">JPG, PNG, DICOM مسموح</span>
+                    </div>
+                    <div class="preview-area" id="previewArea" style="display: none;">
+                        <img id="previewImg" alt="صورة الأشعة المرفوعة">
+                        <button id="removeImg" class="btn-icon" aria-label="حذف الصورة"><i
+                                class="fas fa-trash-alt"></i></button>
+                    </div>
+                    <button id="analyzeBtn" class="btn btn-primary btn-analyze" disabled>
+                        <i class="fas fa-microchip"></i> بدء التحليل الذكي
+                    </button>
+                    <div class="ai-result" id="aiResultBox" style="display: none;">
+                        <div class="result-header">
+                            <i class="fas fa-robot"></i>
+                            <h4>تقرير الذكاء الاصطناعي</h4>
+                        </div>
+                        <div class="result-body">
+                            <p id="aiMessage">سيظهر التقرير هنا...</p>
+                        </div>
+                        <div class="result-footer">
+                            <small>⚠️ هذا التحليل استرشادي ولا يغني عن استشارة الطبيب المختص</small>
+                            <a href="https://wa.me/963933724320?text=مرحباً%20د.%20أحمد،%20أريد%20استشارة%20بخصوص%20صورة%20الأشعة"
+                                target="_blank" class="btn btn-whatsapp btn-sm">
+                                <i class="fab fa-whatsapp"></i> استشر الطبيب
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== CONTACT SECTION (واتساب وتلغرام فقط) ========== -->
+        <section class="contact" id="contact">
+            <div class="container">
+                <div class="section-header fade-up">
+                    <span class="section-badge">تواصل معنا</span>
+                    <h2>تواصل <span class="highlight">مباشر وسريع</span></h2>
+                    <p>نحن متاحون للإجابة على استفساراتك عبر الواتساب والتلغرام</p>
+                </div>
+                <div class="contact-grid">
+                    <!-- بطاقات التواصل -->
+                    <div class="contact-cards fade-up">
+                        <div class="contact-card contact-card-whatsapp">
+                            <div class="contact-card-icon">
+                                <i class="fab fa-whatsapp"></i>
+                            </div>
+                            <div class="contact-card-body">
+                                <h4>واتساب</h4>
+                                <p>تواصل فوري وسريع</p>
+                                <a href="https://wa.me/963933724320?text=مرحباً%20د.%20أحمد" target="_blank"
+                                    class="contact-card-btn">
+                                    <i class="fab fa-whatsapp"></i> ابدأ المحادثة
+                                </a>
+                            </div>
+                        </div>
+                        <div class="contact-card contact-card-telegram">
+                            <div class="contact-card-icon">
+                                <i class="fab fa-telegram-plane"></i>
+                            </div>
+                            <div class="contact-card-body">
+                                <h4>تلغرام</h4>
+                                <p>مراسلة آمنة وسريعة</p>
+                                <a href="https://t.me/+963933724320" target="_blank" class="contact-card-btn">
+                                    <i class="fab fa-telegram-plane"></i> ابدأ المحادثة
+                                </a>
+                            </div>
+                        </div>
+                        <div class="contact-card contact-card-address">
+                            <div class="contact-card-icon">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div class="contact-card-body">
+                                <h4>العنوان</h4>
+                                <p>سوريا - دمشق - شارع العيادات الطبية</p>
+                            </div>
+                        </div>
+                        <div class="contact-card contact-card-hours">
+                            <div class="contact-card-icon">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <div class="contact-card-body">
+                                <h4>ساعات العمل</h4>
+                                <p>الأحد - الخميس: 9 ص - 8 م | السبت: 10 ص - 2 م</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- رسالة سريعة -->
+                    <div class="contact-message-box fade-up">
+                        <h3><i class="fas fa-pen"></i> اكتب رسالتك</h3>
+                        <p class="contact-message-sub">اختر المنصة المفضلة لإرسال رسالتك مباشرة</p>
+                        <textarea id="quickMessage" rows="4" placeholder="اكتب رسالتك هنا..."></textarea>
+                        <div class="message-buttons">
+                            <button id="sendWhatsappMsg" class="btn btn-whatsapp btn-full">
+                                <i class="fab fa-whatsapp"></i> إرسال عبر الواتساب
+                            </button>
+                            <button id="sendTelegramMsg" class="btn btn-telegram btn-full">
+                                <i class="fab fa-telegram-plane"></i> إرسال عبر التلغرام
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <!-- الخريطة -->
+                <div class="map-wrapper fade-up">
+                    <iframe
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3383.123!2d36.2765!3d33.5138!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzPCsDMwJzQ5LjciTiAzNsKwMTYnMzUuNSJF!5e0!3m2!1sar!2s!4v0000000000"
+                        allowfullscreen loading="lazy" title="موقع العيادة على الخريطة"></iframe>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- ========== FOOTER ========== -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="footer-logo"><i class="fas fa-x-ray"></i> عيادة التصوير الشعاعي</div>
+                    <p>أحدث تقنيات التشخيص الشعاعي بأيدي أمهر الأطباء. دقة وجودة ورعاية لا مثيل لها.</p>
+                    <div class="footer-contact-mini">
+                        <a href="https://wa.me/963933724320" target="_blank"><i class="fab fa-whatsapp"></i> واتساب</a>
+                        <a href="https://t.me/+963933724320" target="_blank"><i class="fab fa-telegram-plane"></i>
+                            تلغرام</a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h4>روابط سريعة</h4>
+                    <ul>
+                        <li><a href="#home">الرئيسية</a></li>
+                        <li><a href="#about">عن الطبيب</a></li>
+                        <li><a href="#services">الخدمات</a></li>
+                        <li><a href="#booking">حجز موعد</a></li>
+                        <li><a href="#upload">تحليل الأشعة بالذكاء الاصطناعي</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>ساعات العمل</h4>
+                    <ul class="working-hours">
+                        <li><span>الأحد - الخميس</span> <span>9 ص - 8 م</span></li>
+                        <li><span>الجمعة</span> <span class="closed">مغلق</span></li>
+                        <li><span>السبت</span> <span>10 ص - 2 م</span></li>
+                        <li><span>الحالات الطارئة</span> <span>24/7</span></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 جميع الحقوق محفوظة – عيادة التصوير الشعاعي | التواصل حصراً عبر الواتساب والتلغرام</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+
+</html>

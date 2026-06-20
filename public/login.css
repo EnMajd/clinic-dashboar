@@ -1,0 +1,200 @@
+
+/* ========== إعدادات عامة ========== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Cairo', sans-serif;
+    background: linear-gradient(135deg, #E8F5E9 0%, #f4f7fc 40%, #E3F2FD 100%);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+/* ========== الحاوية الرئيسية ========== */
+.login-wrapper {
+    display: flex;
+    width: 100%;
+    max-width: 850px;
+    background: #ffffff;
+    border-radius: 24px;
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.12);
+    overflow: hidden;
+}
+
+/* ========== القسم الجانبي ========== */
+.login-panel {
+    flex: 1;
+    background: linear-gradient(145deg, #0A5C2B, #0F7B3A);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 30px;
+    text-align: center;
+}
+
+.panel-content {
+    max-width: 280px;
+}
+
+.panel-icon {
+    font-size: 80px;
+    margin-bottom: 20px;
+    opacity: 0.9;
+    filter: drop-shadow(0 4px 6px rgba(0,0,0,0.15));
+}
+
+.panel-content h2 {
+    font-size: 26px;
+    font-weight: 800;
+    margin-bottom: 10px;
+}
+
+.panel-content p {
+    font-size: 15px;
+    opacity: 0.9;
+    margin-bottom: 6px;
+}
+
+.panel-content small {
+    font-size: 13px;
+    opacity: 0.75;
+    font-weight: 500;
+}
+
+/* ========== نموذج الدخول ========== */
+.login-form {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 50px 35px;
+    background: #ffffff;
+}
+
+.form-inner {
+    width: 100%;
+    max-width: 340px;
+}
+
+.form-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+}
+
+.form-header i {
+    font-size: 24px;
+    color: #0F7B3A;
+}
+
+.form-header h3 {
+    font-size: 24px;
+    font-weight: 700;
+    color: #1E2A3E;
+    margin: 0;
+}
+
+.form-subtitle {
+    color: #4B5563;
+    font-size: 14px;
+    margin-bottom: 28px;
+}
+
+/* ========== حقل الإدخال ========== */
+.input-group {
+    position: relative;
+    margin-bottom: 22px;
+}
+
+.input-group i {
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #6B7280;
+    font-size: 16px;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 14px 48px 14px 16px;
+    border: 1.5px solid #e5e7eb;
+    border-radius: 14px;
+    font-size: 16px;
+    background: #f9fafb;
+    outline: none;
+    transition: all 0.3s ease;
+    font-family: inherit;
+}
+
+.input-group input:focus {
+    border-color: #0F7B3A;
+    background: #ffffff;
+    box-shadow: 0 0 0 4px rgba(15, 123, 58, 0.08);
+}
+
+/* ========== زر الدخول ========== */
+#loginBtn {
+    width: 100%;
+    padding: 14px;
+    background: #0F7B3A;
+    color: white;
+    border: none;
+    border-radius: 14px;
+    font-size: 17px;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: all 0.3s ease;
+    font-family: inherit;
+}
+
+#loginBtn:hover {
+    background: #0A5C2B;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(15, 123, 58, 0.35);
+}
+
+#loginBtn i {
+    font-size: 18px;
+}
+
+/* ========== رسالة الخطأ ========== */
+.error-msg {
+    color: #EF4444;
+    font-size: 14px;
+    text-align: center;
+    margin-top: 14px;
+    min-height: 20px;
+}
+
+/* ========== تجاوب الجوال ========== */
+@media (max-width: 650px) {
+    .login-wrapper {
+        flex-direction: column;
+        max-width: 400px;
+    }
+
+    .login-panel {
+        padding: 30px 20px;
+    }
+
+    .panel-icon {
+        font-size: 55px;
+    }
+
+    .login-form {
+        padding: 35px 25px;
+    }
+}

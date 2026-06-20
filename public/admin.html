@@ -1,0 +1,1905 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>لوحة تحكم العيادة | د. أحمد الخطيب</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdn.sheetjs.com/xlsx-0.20.0/package/dist/xlsx.full.min.js"></script>
+    <style>
+        :root {
+            --primary: #0F7B3A;
+            --primary-light: #E8F5E9;
+            --primary-dark: #0A5C2B;
+            --secondary: #1A73E8;
+            --bg: #f4f7fc;
+            --card-bg: #ffffff;
+            --text: #1E2A3E;
+            --text-secondary: #4B5563;
+            --border: #e5e7eb;
+            --new-color: #F59E0B;
+            --confirmed-color: #10B981;
+            --cancelled-color: #EF4444;
+            --shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+            --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.1);
+            --radius: 14px;
+            --transition: 0.2s ease;
+        }
+
+        .dark-mode {
+            --bg: #0F172A;
+            --card-bg: #1E293B;
+            --text: #F1F5F9;
+            --text-secondary: #CBD5E1;
+            --border: #334155;
+            --shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
+            --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.4);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            padding: 8px;
+            direction: rtl;
+            transition: background 0.3s, color 0.3s;
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* ========== LOADING ========== */
+        .loading-spinner {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 0.6s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* ========== LOGIN ========== */
+        .login-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 16px;
+        }
+
+        .login-box {
+            background: var(--card-bg);
+            padding: 28px 20px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-lg);
+            width: 100%;
+            max-width: 360px;
+            text-align: center;
+        }
+
+        .login-box h2 {
+            margin-bottom: 8px;
+            color: var(--primary);
+            font-size: 24px;
+        }
+
+        .login-box p {
+            color: var(--text-secondary);
+            font-size: 13px;
+            margin-bottom: 20px;
+        }
+
+        .login-box input {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1.5px solid var(--border);
+            border-radius: 10px;
+            font-size: 15px;
+            margin-bottom: 14px;
+            background: var(--bg);
+            color: var(--text);
+            outline: none;
+            transition: var(--transition);
+            font-family: inherit;
+        }
+
+        .login-box input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px var(--primary-light);
+        }
+
+        .login-box button {
+            width: 100%;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            padding: 10px 16px;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            border: none;
+            transition: var(--transition);
+            font-family: inherit;
+            white-space: nowrap;
+            user-select: none;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(15, 123, 58, 0.3);
+        }
+
+        .btn-primary:active:not(:disabled) {
+            transform: translateY(0);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1.5px solid var(--border);
+            color: var(--text);
+        }
+
+        .btn-outline:hover:not(:disabled) {
+            border-color: var(--primary);
+            color: var(--primary);
+            background: var(--primary-light);
+        }
+
+        .btn-sm {
+            padding: 6px 12px;
+            font-size: 12px;
+            border-radius: 8px;
+        }
+
+        .btn-xs {
+            padding: 4px 8px;
+            font-size: 11px;
+            border-radius: 6px;
+        }
+
+        .btn-danger {
+            background: #EF4444;
+            color: white;
+        }
+
+        .btn-danger:hover:not(:disabled) {
+            background: #DC2626;
+        }
+
+        .btn-edit {
+            background: var(--secondary);
+            color: white;
+        }
+
+        .btn-edit:hover:not(:disabled) {
+            background: #1557b0;
+        }
+
+        .btn-clear {
+            background: #FEF2F2;
+            color: #991B1B;
+            border: 1px solid #FECACA;
+        }
+
+        .btn-clear:hover:not(:disabled) {
+            background: #FEE2E2;
+        }
+
+        .btn-excel {
+            background: #E8F5E9;
+            color: #1B5E20;
+            border: 1px solid #C8E6C9;
+        }
+
+        .btn-excel:hover:not(:disabled) {
+            background: #C8E6C9;
+        }
+
+        .btn-calendar {
+            background: #EFF6FF;
+            color: #1E40AF;
+            border: 1px solid #BFDBFE;
+        }
+
+        .btn-calendar:hover:not(:disabled) {
+            background: #BFDBFE;
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .error-msg {
+            color: #EF4444;
+            font-size: 13px;
+            margin-top: 6px;
+            display: none;
+        }
+
+        .error-msg.show {
+            display: block;
+        }
+
+        /* ========== HEADER ========== */
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 16px;
+            background: var(--card-bg);
+            padding: 12px 16px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+        }
+
+        .dashboard-header h1 {
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin: 0;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            flex-wrap: wrap;
+            justify-content: flex-start;
+        }
+
+        .refresh-timer {
+            font-size: 12px;
+            color: var(--text-secondary);
+            background: var(--bg);
+            padding: 6px 10px;
+            border-radius: 20px;
+            min-width: fit-content;
+        }
+
+        .theme-toggle {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            color: var(--text);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 16px;
+            transition: var(--transition);
+        }
+
+        .theme-toggle:hover {
+            background: var(--primary-light);
+            color: var(--primary);
+        }
+
+        /* ========== STATS ========== */
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+
+        .stat-card {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            padding: 14px 12px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-shadow: var(--shadow);
+            border-left: 4px solid var(--primary);
+            transition: var(--transition);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .stat-card .info h3 {
+            font-size: 24px;
+            margin-bottom: 4px;
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        .stat-card .info p {
+            color: var(--text-secondary);
+            font-size: 12px;
+        }
+
+        .stat-card i {
+            font-size: 24px;
+            opacity: 0.7;
+            align-self: flex-start;
+        }
+
+        /* ========== WALK-IN FORM ========== */
+        .walkin-card {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            padding: 16px;
+            box-shadow: var(--shadow);
+            margin-bottom: 16px;
+        }
+
+        .walkin-card h3 {
+            font-size: 16px;
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--primary);
+        }
+
+        .walkin-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 10px;
+            align-items: flex-end;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .walkin-row input,
+        .walkin-row select,
+        .modal input,
+        .modal select {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1.5px solid var(--border);
+            border-radius: 10px;
+            font-size: 14px;
+            background: var(--bg);
+            color: var(--text);
+            outline: none;
+            transition: var(--transition);
+            font-family: inherit;
+        }
+
+        .walkin-row input:focus,
+        .walkin-row select:focus,
+        .modal input:focus,
+        .modal select:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px var(--primary-light);
+        }
+
+        .walkin-row label,
+        .modal label {
+            font-size: 12px;
+            margin-bottom: 6px;
+            display: block;
+            color: var(--text-secondary);
+            font-weight: 600;
+        }
+
+        .walkin-row .btn {
+            width: 100%;
+        }
+
+        /* ========== TOOLS BAR ========== */
+        .tools-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 14px;
+            align-items: center;
+            background: var(--card-bg);
+            padding: 12px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+        }
+
+        .search-wrapper {
+            position: relative;
+            flex: 1 1 200px;
+            min-width: 150px;
+        }
+
+        .search-wrapper i {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-secondary);
+            pointer-events: none;
+        }
+
+        .search-wrapper input {
+            width: 100%;
+            padding: 10px 36px 10px 12px;
+            border: 1.5px solid var(--border);
+            border-radius: 10px;
+            font-size: 14px;
+            background: var(--bg);
+            color: var(--text);
+            outline: none;
+        }
+
+        .tools-bar input[type="date"] {
+            padding: 10px 12px;
+            border: 1.5px solid var(--border);
+            border-radius: 10px;
+            font-size: 14px;
+            background: var(--bg);
+            color: var(--text);
+            outline: none;
+            flex: 0 1 160px;
+            font-family: inherit;
+        }
+
+        .tools-bar input[type="date"]:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px var(--primary-light);
+        }
+
+        /* ========== TABLE ========== */
+        .table-wrapper {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 14px;
+            overflow: hidden;
+        }
+
+        .table-container {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 100%;
+        }
+
+        th {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            padding: 12px 10px;
+            font-size: 13px;
+            cursor: pointer;
+            user-select: none;
+            white-space: nowrap;
+            font-weight: 600;
+        }
+
+        th i {
+            margin-right: 4px;
+            font-size: 10px;
+            opacity: 0.8;
+        }
+
+        th:hover {
+            opacity: 0.9;
+        }
+
+        td {
+            padding: 12px 10px;
+            text-align: center;
+            border-bottom: 1px solid var(--border);
+            font-size: 13px;
+            color: var(--text);
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:hover td {
+            background: var(--primary-light);
+        }
+
+        tbody tr {
+            transition: background 0.15s;
+        }
+
+        .service-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            color: white;
+        }
+
+        .srv-xray {
+            background: #F97316;
+        }
+
+        .srv-ct {
+            background: #8B5CF6;
+        }
+
+        .srv-mri {
+            background: #3B82F6;
+        }
+
+        .srv-ultrasound {
+            background: #06B6D4;
+        }
+
+        .srv-mammogram {
+            background: #EC4899;
+        }
+
+        .srv-dental {
+            background: #6366F1;
+        }
+
+        .status-badge {
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        .status-جديد {
+            background: #FEF3C7;
+            color: #92400E;
+        }
+
+        .status-مؤكد {
+            background: #DCFCE7;
+            color: #166534;
+        }
+
+        .status-ملغي {
+            background: #FEE2E2;
+            color: #991B1B;
+        }
+
+        .action-cell {
+            display: flex;
+            gap: 4px;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .status-actions {
+            display: flex;
+            gap: 3px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        /* ========== PAGINATION ========== */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 6px;
+            margin: 12px 0;
+            flex-wrap: wrap;
+            padding: 0 12px 12px;
+        }
+
+        .pagination button {
+            padding: 8px 12px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background: var(--card-bg);
+            color: var(--text);
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 12px;
+            transition: var(--transition);
+            font-family: inherit;
+        }
+
+        .pagination button.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .pagination button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .pagination button:hover:not(:disabled) {
+            background: var(--primary-light);
+            border-color: var(--primary);
+        }
+
+        /* ========== CALENDAR ========== */
+        .calendar-container {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            padding: 16px;
+            box-shadow: var(--shadow);
+            margin-bottom: 14px;
+        }
+
+        .cal-month {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+            gap: 12px;
+        }
+
+        .cal-month h3 {
+            flex: 1;
+            text-align: center;
+            margin: 0;
+        }
+
+        .cal-month button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 18px;
+            color: var(--text);
+            padding: 4px 8px;
+            transition: var(--transition);
+        }
+
+        .cal-month button:hover {
+            color: var(--primary);
+        }
+
+        .cal-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 4px;
+            text-align: center;
+        }
+
+        .cal-day-name {
+            font-weight: 600;
+            padding: 8px 0;
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .cal-day {
+            padding: 10px 4px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: var(--transition);
+            position: relative;
+            min-height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .cal-day:hover:not(.other-month) {
+            background: var(--primary-light);
+        }
+
+        .cal-day.has-appointments {
+            font-weight: 700;
+        }
+
+        .cal-day.has-appointments::after {
+            content: '';
+            display: block;
+            width: 4px;
+            height: 4px;
+            background: var(--primary);
+            border-radius: 50%;
+            position: absolute;
+            bottom: 3px;
+        }
+
+        .cal-day.today {
+            border: 2px solid var(--primary);
+        }
+
+        .cal-day.selected {
+            background: var(--primary);
+            color: white;
+        }
+
+        .cal-day.other-month {
+            opacity: 0.3;
+            cursor: default;
+        }
+
+        .cal-appointments {
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid var(--border);
+        }
+
+        .cal-appointments h4 {
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+
+        .cal-appointments-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 12px;
+        }
+
+        .cal-appointments-table th {
+            background: var(--primary);
+            color: white;
+            padding: 8px;
+            font-size: 12px;
+            border: none;
+        }
+
+        .cal-appointments-table td {
+            padding: 8px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        /* ========== MODAL ========== */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.6);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 999;
+            padding: 16px;
+            animation: fadeIn 0.2s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        .modal {
+            background: var(--card-bg);
+            padding: 24px;
+            border-radius: var(--radius);
+            width: 100%;
+            max-width: 460px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: var(--shadow-lg);
+            animation: slideUp 0.3s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal h3 {
+            margin-bottom: 18px;
+            text-align: center;
+            font-size: 18px;
+        }
+
+        .modal .form-group {
+            margin-bottom: 14px;
+        }
+
+        .modal label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 600;
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 18px;
+            flex-wrap: wrap;
+        }
+
+        .modal-actions .btn {
+            flex: 1;
+            min-width: 120px;
+        }
+
+        /* ========== TOAST ========== */
+        #toastContainer {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 2000;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .toast {
+            background: #1E2A3E;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 13px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            animation: slideUp 0.3s ease;
+            max-width: 90vw;
+        }
+
+        .dark-mode .toast {
+            background: #1E293B;
+        }
+
+        /* ========== EMPTY STATE ========== */
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text-secondary);
+        }
+
+        .empty-state i {
+            font-size: 48px;
+            opacity: 0.5;
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        .empty-state p {
+            font-size: 14px;
+        }
+
+        /* ========== RESPONSIVE ========== */
+        @media (max-width: 768px) {
+            body {
+                padding: 6px;
+            }
+
+            .dashboard-header {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 10px;
+            }
+
+            .dashboard-header h1 {
+                font-size: 18px;
+            }
+
+            .header-actions {
+                width: 100%;
+                justify-content: space-between;
+            }
+
+            .stats-row {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .stat-card {
+                padding: 12px 10px;
+            }
+
+            .stat-card .info h3 {
+                font-size: 20px;
+            }
+
+            .walkin-row {
+                grid-template-columns: 1fr;
+            }
+
+            .walkin-row .btn {
+                width: 100%;
+            }
+
+            .tools-bar {
+                flex-direction: column;
+            }
+
+            .search-wrapper {
+                width: 100%;
+            }
+
+            .tools-bar input[type="date"] {
+                width: 100%;
+            }
+
+            .tools-bar .btn {
+                width: 100%;
+                justify-content: center;
+            }
+
+            table {
+                font-size: 12px;
+            }
+
+            td,
+            th {
+                padding: 8px 6px;
+            }
+
+            .action-cell {
+                flex-direction: column;
+                gap: 3px;
+            }
+
+            .status-actions {
+                width: 100%;
+            }
+
+            .modal {
+                width: 95%;
+                padding: 20px;
+            }
+
+            .modal-actions .btn {
+                min-width: auto;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 4px;
+            }
+
+            .login-box {
+                padding: 20px 16px;
+            }
+
+            .dashboard-header {
+                padding: 10px 12px;
+            }
+
+            .dashboard-header h1 {
+                font-size: 16px;
+            }
+
+            .walkin-card {
+                padding: 12px;
+            }
+
+            .walkin-card h3 {
+                font-size: 14px;
+            }
+
+            .tools-bar {
+                padding: 10px 8px;
+                gap: 8px;
+            }
+
+            .refresh-timer {
+                font-size: 11px;
+                padding: 4px 8px;
+            }
+
+            .btn-sm {
+                padding: 5px 10px;
+                font-size: 11px;
+            }
+
+            .btn-xs {
+                padding: 3px 6px;
+                font-size: 10px;
+            }
+
+            .stats-row {
+                grid-template-columns: 1fr 1fr;
+                gap: 8px;
+            }
+
+            .stat-card {
+                padding: 10px 8px;
+                border-left-width: 3px;
+            }
+
+            .stat-card .info h3 {
+                font-size: 18px;
+            }
+
+            .stat-card .info p {
+                font-size: 11px;
+            }
+
+            table {
+                font-size: 11px;
+                min-width: 100%;
+            }
+
+            td,
+            th {
+                padding: 6px 4px;
+            }
+
+            .service-badge {
+                padding: 2px 6px;
+                font-size: 10px;
+            }
+
+            .status-badge {
+                padding: 2px 6px;
+                font-size: 10px;
+            }
+
+            th {
+                font-size: 11px;
+            }
+
+            .modal {
+                padding: 16px;
+            }
+
+            .modal h3 {
+                font-size: 16px;
+                margin-bottom: 14px;
+            }
+
+            .modal label {
+                font-size: 12px;
+            }
+
+            .pagination {
+                gap: 4px;
+            }
+
+            .pagination button {
+                padding: 6px 10px;
+                font-size: 11px;
+            }
+
+            .theme-toggle {
+                width: 32px;
+                height: 32px;
+                font-size: 14px;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .login-box {
+                padding: 16px 12px;
+            }
+
+            .btn {
+                padding: 8px 12px;
+                font-size: 13px;
+            }
+
+            .btn-sm {
+                padding: 5px 8px;
+                font-size: 10px;
+            }
+
+            .walkin-row {
+                gap: 8px;
+            }
+
+            .stat-card .info h3 {
+                font-size: 16px;
+            }
+
+            .header-actions {
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            .tools-bar button {
+                width: 100%;
+            }
+        }
+
+        /* ========== PRINT ========== */
+        @media print {
+            body {
+                background: white;
+            }
+
+            .dashboard-header,
+            .tools-bar,
+            .walkin-card,
+            .theme-toggle,
+            .header-actions button,
+            .btn {
+                display: none;
+            }
+
+            table {
+                font-size: 10px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ========== LOGIN ========== -->
+    <div id="loginPage" class="login-container">
+        <div class="login-box">
+            <i class="fas fa-lock" style="font-size: 40px; color: var(--primary); margin-bottom: 12px;"></i>
+            <h2>دخول لوحة التحكم</h2>
+            <p>أدخل رمز الدخول الخاص بك</p>
+            <input type="password" id="tokenInput" placeholder="أدخل رمز الدخول" autocomplete="current-password">
+            <button class="btn btn-primary" style="width: 100%;" onclick="login()">
+                <i class="fas fa-arrow-right-to-bracket"></i> دخول
+            </button>
+            <p id="errorMsg" class="error-msg"></p>
+        </div>
+    </div>
+
+    <!-- ========== DASHBOARD ========== -->
+    <div id="dashboard" class="hidden">
+        <div class="container">
+            <div class="dashboard-header">
+                <div class="header-left">
+                    <h1><i class="fas fa-x-ray" style="color:var(--primary);"></i> إدارة المواعيد</h1>
+                </div>
+                <div class="header-actions">
+                    <button class="theme-toggle" onclick="toggleTheme()" title="تغيير المظهر">
+                        <i class="fas fa-moon" id="themeIcon"></i>
+                    </button>
+                    <span class="refresh-timer" id="refreshTimer">تحديث تلقائي كل 5 ثوانٍ</span>
+                    <button class="btn btn-outline btn-sm" onclick="loadAppointments()" title="تحديث يدوي">
+                        <i class="fas fa-sync-alt"></i>
+                    </button>
+                    <button class="btn btn-outline btn-sm" onclick="toggleView()" title="تبديل العرض">
+                        <i class="fas" id="viewIcon"></i> <span id="viewLabel"></span>
+                    </button>
+                    <button class="btn btn-outline btn-sm" onclick="logout()" title="تسجيل الخروج">
+                        <i class="fas fa-sign-out-alt"></i> خروج
+                    </button>
+                </div>
+            </div>
+
+            <!-- بطاقات الإحصائيات -->
+            <div class="stats-row">
+                <div class="stat-card">
+                    <div class="info">
+                        <h3 id="totalCount">0</h3>
+                        <p>كل المواعيد</p>
+                    </div>
+                    <i class="fas fa-calendar-alt" style="color:var(--primary);"></i>
+                </div>
+                <div class="stat-card">
+                    <div class="info">
+                        <h3 id="newCount">0</h3>
+                        <p>جديد</p>
+                    </div>
+                    <i class="fas fa-circle" style="color:var(--new-color);"></i>
+                </div>
+                <div class="stat-card">
+                    <div class="info">
+                        <h3 id="confirmedCount">0</h3>
+                        <p>مؤكد</p>
+                    </div>
+                    <i class="fas fa-check-circle" style="color:var(--confirmed-color);"></i>
+                </div>
+                <div class="stat-card">
+                    <div class="info">
+                        <h3 id="cancelledCount">0</h3>
+                        <p>ملغي</p>
+                    </div>
+                    <i class="fas fa-times-circle" style="color:var(--cancelled-color);"></i>
+                </div>
+            </div>
+
+            <!-- تسجيل مريض حضورياً -->
+            <div class="walkin-card">
+                <h3><i class="fas fa-user-plus"></i> تسجيل مريض حضوريّ</h3>
+                <div class="walkin-row">
+                    <div class="form-group">
+                        <label>الاسم الكامل</label>
+                        <input type="text" id="walkinName" placeholder="اسم المريض">
+                    </div>
+                    <div class="form-group">
+                        <label>رقم الهاتف</label>
+                        <input type="tel" id="walkinPhone" placeholder="09xxxxxxxx" dir="ltr">
+                    </div>
+                    <div class="form-group">
+                        <label>الخدمة</label>
+                        <select id="walkinService">
+                            <option value="">اختر الخدمة</option>
+                            <option>الأشعة السينية (X-Ray)</option>
+                            <option>التصوير الطبقي (CT)</option>
+                            <option>الرنين المغناطيسي (MRI)</option>
+                            <option>الإيكو (Ultrasound)</option>
+                            <option>تصوير الثدي الشعاعي</option>
+                            <option>الأشعة السنية</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>التاريخ</label>
+                        <input type="date" id="walkinDate">
+                    </div>
+                    <div class="form-group">
+                        <label>الوقت</label>
+                        <input type="time" id="walkinTime">
+                    </div>
+                    <button class="btn btn-primary" onclick="addWalkinPatient()">
+                        <i class="fas fa-save"></i> حفظ
+                    </button>
+                </div>
+            </div>
+
+            <!-- أدوات البحث والفلترة -->
+            <div class="tools-bar">
+                <div class="search-wrapper">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="searchInput" placeholder="ابحث عن اسم، رقم، خدمة...">
+                </div>
+
+                <input type="date" id="dateFilter" title="فلترة حسب التاريخ">
+                <button class="btn btn-clear btn-sm" onclick="clearFilters()">
+                    <i class="fas fa-times"></i> مسح
+                </button>
+                <button class="btn btn-excel btn-sm" onclick="exportToExcel()">
+                    <i class="fas fa-file-excel"></i> تصدير Excel
+                </button>
+                <button class="btn btn-calendar btn-sm" id="btnCalendarView" onclick="showCalendarView()">
+                    <i class="fas fa-calendar-alt"></i> عرض تقويم
+                </button>
+                <button class="btn btn-sm" style="background:#FEE2E2;color:#991B1B;border:1px solid #FECACA;"
+                    onclick="openDeleteAllModal()">
+                    <i class="fas fa-trash-alt"></i> مسح جميع البيانات
+                </button>
+                <button class="btn btn-outline btn-sm hidden" id="btnTableView" onclick="showTableView()">
+                    <i class="fas fa-list"></i> عرض جدول
+                </button>
+            </div>
+
+            <!-- عرض الجدول -->
+            <div id="tableView" class="table-wrapper">
+                <div class="table-container">
+                    <table id="appointmentsTable">
+                        <thead>
+                            <tr>
+                                <th onclick="sortTable('patient_name')" style="cursor: pointer;">الاسم <i
+                                        class="fas fa-sort"></i></th>
+                                <th onclick="sortTable('phone')" style="cursor: pointer;">الهاتف <i
+                                        class="fas fa-sort"></i></th>
+                                <th onclick="sortTable('service')" style="cursor: pointer;">الخدمة <i
+                                        class="fas fa-sort"></i></th>
+                                <th onclick="sortTable('date')" style="cursor: pointer;">التاريخ <i
+                                        class="fas fa-sort"></i></th>
+                                <th onclick="sortTable('time')" style="cursor: pointer;">الوقت <i
+                                        class="fas fa-sort"></i></th>
+                                <th onclick="sortTable('status')" style="cursor: pointer;">الحالة <i
+                                        class="fas fa-sort"></i></th>
+                                <th>إجراء</th>
+                            </tr>
+                        </thead>
+                        <tbody id="appointmentsBody"></tbody>
+                    </table>
+                </div>
+                <div class="pagination" id="pagination"></div>
+            </div>
+
+            <!-- عرض التقويم -->
+            <div id="calendarView" class="calendar-container hidden"></div>
+        </div>
+    </div>
+
+    <!-- نافذة تعديل -->
+    <div id="editModal" class="modal-overlay hidden" onclick="if(event.target===this) closeEditModal()">
+        <div class="modal">
+            <h3>✏️ تعديل الحجز</h3>
+            <div class="form-group">
+                <label>الاسم</label>
+                <input type="text" id="editName">
+            </div>
+            <div class="form-group">
+                <label>الهاتف</label>
+                <input type="text" id="editPhone">
+            </div>
+            <div class="form-group">
+                <label>الخدمة</label>
+                <select id="editService">
+                    <option>الأشعة السينية (X-Ray)</option>
+                    <option>التصوير الطبقي (CT)</option>
+                    <option>الرنين المغناطيسي (MRI)</option>
+                    <option>الإيكو (Ultrasound)</option>
+                    <option>تصوير الثدي الشعاعي</option>
+                    <option>الأشعة السنية</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>التاريخ</label>
+                <input type="date" id="editDate">
+            </div>
+            <div class="form-group">
+                <label>الوقت</label>
+                <input type="time" id="editTime">
+            </div>
+            <div class="modal-actions">
+                <button class="btn btn-primary btn-sm" onclick="saveEdit()">حفظ</button>
+                <button class="btn btn-outline btn-sm" onclick="closeEditModal()">إلغاء</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- نافذة حذف -->
+    <div id="deleteModal" class="modal-overlay hidden" onclick="if(event.target===this) closeDeleteModal()">
+        <div class="modal" style="text-align: center;">
+            <h3><i class="fas fa-exclamation-triangle" style="color: #EF4444;"></i> تأكيد الحذف</h3>
+            <p>هل أنت متأكد من حذف هذا الموعد؟</p>
+            <div class="modal-actions">
+                <button class="btn btn-danger btn-sm" id="confirmDeleteBtn">حذف</button>
+                <button class="btn btn-outline btn-sm" onclick="closeDeleteModal()">إلغاء</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="toastContainer"></div>
+    <!-- نافذة تأكيد حذف جميع البيانات -->
+    <div id="deleteAllModal" class="modal-overlay hidden">
+        <div class="modal">
+            <h3>⚠️ تحذير: حذف جميع المواعيد</h3>
+            <p>سيتم حذف جميع بيانات المرضى والمواعيد بشكل نهائي. لا يمكن التراجع عن هذا الإجراء.</p>
+            <div style="text-align:center; margin: 16px 0;">
+                <span id="deleteCountdown" style="font-size: 22px; font-weight:700; color: #DC2626;">5</span> ثوانٍ
+            </div>
+            <div class="modal-actions">
+                <button id="finalDeleteBtn" class="btn btn-danger btn-sm" disabled onclick="executeDeleteAll()">
+                    تأكيد الحذف النهائي
+                </button>
+                <button class="btn btn-outline btn-sm" onclick="closeDeleteAllModal()">إلغاء</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API = '/api/appointments';
+        let token = '';
+        let allAppointments = [];
+        let filteredAppointments = [];
+        let currentPage = 1;
+        const pageSize = 15;
+        let sortField = 'date';
+        let sortDirection = 'asc';
+        let previousCount = null;
+        let refreshIntervalId = null;
+        let editingId = null;
+        let deleteId = null;
+        let currentView = 'table';
+
+        const serviceColorMap = {
+            'الأشعة السينية (X-Ray)': 'srv-xray',
+            'التصوير الطبقي (CT)': 'srv-ct',
+            'الرنين المغناطيسي (MRI)': 'srv-mri',
+            'الإيكو (Ultrasound)': 'srv-ultrasound',
+            'تصوير الثدي الشعاعي': 'srv-mammogram',
+            'الأشعة السنية': 'srv-dental'
+        };
+
+        function escapeHtml(text) {
+            const map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' };
+            return String(text).replace(/[&<>"']/g, m => map[m]);
+        }
+
+        function showToast(msg, dur = 3000) {
+            const c = document.getElementById('toastContainer');
+            const t = document.createElement('div');
+            t.className = 'toast';
+            t.textContent = msg;
+            c.appendChild(t);
+            setTimeout(() => t.remove(), dur);
+        }
+
+        function playBeep(f = 800, d = 150) {
+            try {
+                const ctx = new (window.AudioContext || window.webkitAudioContext)();
+                const o = ctx.createOscillator();
+                o.type = 'sine';
+                o.frequency.value = f;
+                const g = ctx.createGain();
+                g.gain.value = 0.15;
+                o.connect(g);
+                g.connect(ctx.destination);
+                o.start();
+                setTimeout(() => o.stop(), d);
+            } catch (e) { }
+        }
+        function newAppointmentSound() { playBeep(1000, 200); }
+        function deleteSound() { playBeep(400, 300); }
+
+        // ثيم
+        function initTheme() {
+            if (localStorage.getItem('adminTheme') === 'dark') {
+                document.body.classList.add('dark-mode');
+                document.getElementById('themeIcon').className = 'fas fa-sun';
+            }
+        }
+        function toggleTheme() {
+            document.body.classList.toggle('dark-mode');
+            const isDark = document.body.classList.contains('dark-mode');
+            document.getElementById('themeIcon').className = isDark ? 'fas fa-sun' : 'fas fa-moon';
+            localStorage.setItem('adminTheme', isDark ? 'dark' : 'light');
+        }
+
+        // دخول
+        async function login() {
+            token = document.getElementById('tokenInput').value.trim();
+            const errorMsg = document.getElementById('errorMsg');
+            if (!token) {
+                errorMsg.textContent = 'الرجاء إدخال رمز الدخول';
+                errorMsg.classList.add('show');
+                return;
+            }
+            try {
+                const res = await fetch(API, { headers: { 'Authorization': `Bearer ${token}` } });
+                if (res.ok) {
+                    localStorage.setItem('adminToken', token);
+                    document.getElementById('loginPage').classList.add('hidden');
+                    document.getElementById('dashboard').classList.remove('hidden');
+                    loadAppointments();
+                    startAutoRefresh();
+                } else {
+                    errorMsg.textContent = 'رمز الدخول غير صحيح';
+                    errorMsg.classList.add('show');
+                    document.getElementById('tokenInput').value = '';
+                }
+            } catch (e) {
+                errorMsg.textContent = 'تعذر الاتصال بالخادم';
+                errorMsg.classList.add('show');
+            }
+        }
+        function logout() {
+            localStorage.removeItem('adminToken');
+            token = '';
+            allAppointments = [];
+            stopAutoRefresh();
+            document.getElementById('dashboard').classList.add('hidden');
+            document.getElementById('loginPage').classList.remove('hidden');
+            document.getElementById('tokenInput').value = '';
+            document.getElementById('errorMsg').textContent = '';
+            document.getElementById('errorMsg').classList.remove('show');
+        }
+
+        async function loadAppointments() {
+            try {
+                const res = await fetch(API, { headers: { 'Authorization': `Bearer ${token}` } });
+                if (!res.ok) throw new Error();
+                const data = await res.json();
+                if (previousCount !== null && data.length > previousCount) {
+                    newAppointmentSound();
+                    showToast(`🆕 ${data.length - previousCount} حجز جديد`);
+                }
+                previousCount = data.length;
+                allAppointments = data;
+                applyFilters();
+            } catch (e) { showToast('⚠️ فشل تحميل البيانات'); }
+        }
+
+        function applyFilters() {
+            let filtered = [...allAppointments];
+            const s = document.getElementById('searchInput').value.toLowerCase();
+            if (s) filtered = filtered.filter(a => a.patient_name.toLowerCase().includes(s) || a.phone.includes(s) || a.service.toLowerCase().includes(s));
+            const d = document.getElementById('dateFilter').value;
+            if (d) filtered = filtered.filter(a => a.date === d);
+            filteredAppointments = filtered;
+            sortData();
+            if (currentView === 'table') renderTablePage();
+            else renderCalendar();
+        }
+        function clearFilters() {
+            document.getElementById('searchInput').value = '';
+            document.getElementById('dateFilter').value = '';
+            applyFilters();
+            showToast('🔄 تم مسح الفلاتر');
+        }
+
+        function sortData() {
+            filteredAppointments.sort((a, b) => {
+                let va = a[sortField] || '', vb = b[sortField] || '';
+                if (sortField === 'date') { va = new Date(va); vb = new Date(vb); }
+                if (va < vb) return sortDirection === 'asc' ? -1 : 1;
+                if (va > vb) return sortDirection === 'asc' ? 1 : -1;
+                return 0;
+            });
+        }
+        function sortTable(field) {
+            if (sortField === field) sortDirection = sortDirection === 'asc' ? 'desc' : 'asc';
+            else { sortField = field; sortDirection = (field === 'date' ? 'asc' : 'asc'); }
+            sortData();
+            if (currentView === 'table') renderTablePage();
+        }
+
+        // عرض الجدول
+        function renderTablePage() {
+            const totalPages = Math.ceil(filteredAppointments.length / pageSize) || 1;
+            if (currentPage > totalPages) currentPage = totalPages;
+            const start = (currentPage - 1) * pageSize;
+            const pageData = filteredAppointments.slice(start, start + pageSize);
+            const tbody = document.getElementById('appointmentsBody');
+
+            if (pageData.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="7" class="empty-state"><i class="fas fa-inbox"></i><p>لا توجد مواعيد</p></td></tr>';
+                document.getElementById('pagination').innerHTML = '';
+                return;
+            }
+
+            tbody.innerHTML = pageData.map(a => {
+                const serviceClass = serviceColorMap[a.service] || '';
+                return `<tr>
+                    <td>${escapeHtml(a.patient_name)}</td>
+                    <td dir="ltr">${escapeHtml(a.phone)}</td>
+                    <td><span class="service-badge ${serviceClass}">${escapeHtml(a.service)}</span></td>
+                    <td>${escapeHtml(a.date)}</td>
+                    <td>${escapeHtml(a.time)}</td>
+                    <td><span class="status-badge status-${a.status}">${a.status}</span></td>
+                    <td class="action-cell">
+                        <div class="status-actions">
+                            <button class="btn btn-xs" style="background:#DCFCE7;color:#166534;" onclick="updateStatus(${a.id},'مؤكد')" title="تأكيد"><i class="fas fa-check"></i></button>
+                            <button class="btn btn-xs" style="background:#FEE2E2;color:#991B1B;" onclick="updateStatus(${a.id},'ملغي')" title="إلغاء"><i class="fas fa-ban"></i></button>
+                            <button class="btn btn-xs" style="background:#FEF3C7;color:#92400E;" onclick="updateStatus(${a.id},'جديد')" title="إرجاع جديد"><i class="fas fa-undo"></i></button>
+                        </div>
+                        <button class="btn btn-edit btn-xs" onclick="openEditModal(${a.id})" title="تعديل"><i class="fas fa-edit"></i></button>
+                        <button class="btn btn-danger btn-xs" onclick="confirmDelete(${a.id})" title="حذف"><i class="fas fa-trash"></i></button>
+                    </td>
+                </tr>`;
+            }).join('');
+
+            document.getElementById('totalCount').textContent = allAppointments.length;
+            document.getElementById('newCount').textContent = allAppointments.filter(a => a.status === 'جديد').length;
+            document.getElementById('confirmedCount').textContent = allAppointments.filter(a => a.status === 'مؤكد').length;
+            document.getElementById('cancelledCount').textContent = allAppointments.filter(a => a.status === 'ملغي').length;
+
+            renderPagination(totalPages);
+        }
+
+        function renderPagination(totalPages) {
+            const div = document.getElementById('pagination');
+            let h = `<button ${currentPage === 1 ? 'disabled' : ''} onclick="goToPage(${currentPage - 1})">السابق</button>`;
+            for (let i = 1; i <= totalPages; i++) h += `<button class="${i === currentPage ? 'active' : ''}" onclick="goToPage(${i})">${i}</button>`;
+            h += `<button ${currentPage === totalPages ? 'disabled' : ''} onclick="goToPage(${currentPage + 1})">التالي</button>`;
+            div.innerHTML = h;
+        }
+        function goToPage(p) { currentPage = p; renderTablePage(); }
+
+        // التقويم
+        function renderCalendar(year, month) {
+            if (!year) { const now = new Date(); year = now.getFullYear(); month = now.getMonth(); }
+            const container = document.getElementById('calendarView');
+            const monthNames = ['يناير', 'فبراير', 'مارس', 'أبريل', 'مايو', 'يونيو', 'يوليو', 'أغسطس', 'سبتمبر', 'أكتوبر', 'نوفمبر', 'ديسمبر'];
+            const firstDay = new Date(year, month, 1).getDay();
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+            const today = new Date();
+            const todayStr = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+
+            const dateMap = {};
+            filteredAppointments.forEach(a => { dateMap[a.date] = (dateMap[a.date] || 0) + 1; });
+
+            let html = `<div class="cal-month">
+                <button onclick="renderCalendar(${year},${month - 1})" title="الشهر السابق"><i class="fas fa-chevron-right"></i></button>
+                <h3>${monthNames[month]} ${year}</h3>
+                <button onclick="renderCalendar(${year},${month + 1})" title="الشهر التالي"><i class="fas fa-chevron-left"></i></button>
+            </div><div class="cal-grid">`;
+            const dayNames = ['الأحد', 'الإثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة', 'السبت'];
+            dayNames.forEach(d => html += `<div class="cal-day-name">${d}</div>`);
+
+            for (let i = 0; i < firstDay; i++) html += `<div class="cal-day other-month"></div>`;
+            for (let d = 1; d <= daysInMonth; d++) {
+                const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
+                const hasApps = dateMap[dateStr];
+                const isToday = (dateStr === todayStr);
+                const selectedClass = (document.getElementById('dateFilter').value === dateStr) ? 'selected' : '';
+                html += `<div class="cal-day ${hasApps ? 'has-appointments' : ''} ${isToday ? 'today' : ''} ${selectedClass}" onclick="selectCalendarDay('${dateStr}')">${d}</div>`;
+            }
+            html += `</div>`;
+            const selectedDate = document.getElementById('dateFilter').value;
+            if (selectedDate) {
+                const dayApps = filteredAppointments.filter(a => a.date === selectedDate);
+                html += `<div class="cal-appointments">
+                    <h4>📅 مواعيد ${selectedDate}</h4>`;
+                if (dayApps.length === 0) html += `<p style="color: var(--text-secondary); font-size: 13px;">لا توجد مواعيد في هذا التاريخ</p>`;
+                else {
+                    html += `<table class="cal-appointments-table"><thead><tr><th>الاسم</th><th>الوقت</th><th>الخدمة</th><th>الحالة</th></tr></thead><tbody>`;
+                    dayApps.forEach(a => {
+                        const srvClass = serviceColorMap[a.service] || '';
+                        html += `<tr><td>${escapeHtml(a.patient_name)}</td><td>${a.time}</td><td><span class="service-badge ${srvClass}">${escapeHtml(a.service)}</span></td><td><span class="status-badge status-${a.status}">${a.status}</span></td></tr>`;
+                    });
+                    html += `</tbody></table>`;
+                }
+                html += `</div>`;
+            }
+            container.innerHTML = html;
+        }
+
+        function selectCalendarDay(dateStr) {
+            document.getElementById('dateFilter').value = dateStr;
+            applyFilters();
+            showTableView();
+        }
+
+        function showCalendarView() {
+            currentView = 'calendar';
+            document.getElementById('tableView').classList.add('hidden');
+            document.getElementById('calendarView').classList.remove('hidden');
+            document.getElementById('btnCalendarView').classList.add('hidden');
+            document.getElementById('btnTableView').classList.remove('hidden');
+            document.getElementById('viewIcon').className = 'fas fa-calendar-alt';
+            document.getElementById('viewLabel').textContent = ' عرض تقويم';
+            renderCalendar();
+        }
+        function showTableView() {
+            currentView = 'table';
+            document.getElementById('tableView').classList.remove('hidden');
+            document.getElementById('calendarView').classList.add('hidden');
+            document.getElementById('btnCalendarView').classList.remove('hidden');
+            document.getElementById('btnTableView').classList.add('hidden');
+            document.getElementById('viewIcon').className = 'fas fa-list';
+            document.getElementById('viewLabel').textContent = ' عرض جدول';
+            renderTablePage();
+        }
+        function toggleView() {
+            if (currentView === 'table') showCalendarView(); else showTableView();
+        }
+
+        // تسجيل مريض حضورياً
+        async function addWalkinPatient() {
+            const name = document.getElementById('walkinName').value.trim();
+            const phone = document.getElementById('walkinPhone').value.trim();
+            const service = document.getElementById('walkinService').value;
+            const date = document.getElementById('walkinDate').value;
+            const time = document.getElementById('walkinTime').value;
+
+            if (!name || !phone || !service || !date || !time) {
+                showToast('⚠️ جميع الحقول مطلوبة');
+                return;
+            }
+            if (!/^09\d{8}$/.test(phone)) {
+                showToast('❌ رقم هاتف غير صحيح');
+                return;
+            }
+            try {
+                const res = await fetch(API, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+                    body: JSON.stringify({ patient_name: name, phone, service, date, time })
+                });
+                if (res.ok) {
+                    showToast('✅ تمت إضافة المريض بنجاح');
+                    ['walkinName', 'walkinPhone', 'walkinService', 'walkinDate', 'walkinTime'].forEach(id => document.getElementById(id).value = '');
+                    loadAppointments();
+                } else {
+                    const err = await res.json();
+                    showToast('❌ ' + (err.error || 'فشل الإضافة'));
+                }
+            } catch (e) { showToast('❌ تعذر الاتصال بالخادم'); }
+        }
+
+        // تعديل الحالة
+        async function updateStatus(id, newStatus) {
+            try {
+                await fetch(`${API}/${id}`, {
+                    method: 'PATCH',
+                    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+                    body: JSON.stringify({ status: newStatus })
+                });
+                loadAppointments();
+                showToast(`✅ تم تحديث الحالة إلى ${newStatus}`);
+            } catch (e) { showToast('❌ فشل التحديث'); }
+        }
+
+        // تعديل الحجز
+        function openEditModal(id) {
+            const app = allAppointments.find(a => a.id === id);
+            if (!app) return;
+            editingId = id;
+            document.getElementById('editName').value = app.patient_name;
+            document.getElementById('editPhone').value = app.phone;
+            document.getElementById('editService').value = app.service;
+            document.getElementById('editDate').value = app.date;
+            document.getElementById('editTime').value = app.time;
+            document.getElementById('editModal').classList.remove('hidden');
+        }
+        function closeEditModal() { editingId = null; document.getElementById('editModal').classList.add('hidden'); }
+        async function saveEdit() {
+            if (!editingId) return;
+            const updated = {
+                patient_name: document.getElementById('editName').value.trim(),
+                phone: document.getElementById('editPhone').value.trim(),
+                service: document.getElementById('editService').value,
+                date: document.getElementById('editDate').value,
+                time: document.getElementById('editTime').value
+            };
+            if (!updated.patient_name || !updated.phone || !updated.date || !updated.time) {
+                showToast('⚠️ حقول ناقصة');
+                return;
+            }
+            try {
+                const res = await fetch(`${API}/${editingId}`, {
+                    method: 'PATCH',
+                    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+                    body: JSON.stringify(updated)
+                });
+                if (res.ok) {
+                    showToast('✅ تم التعديل بنجاح');
+                    closeEditModal();
+                    loadAppointments();
+                }
+                else showToast('❌ فشل التعديل');
+            } catch (e) { showToast('❌ خطأ'); }
+        }
+
+        // حذف
+        function confirmDelete(id) { deleteId = id; document.getElementById('deleteModal').classList.remove('hidden'); }
+        function closeDeleteModal() { deleteId = null; document.getElementById('deleteModal').classList.add('hidden'); }
+        document.getElementById('confirmDeleteBtn').addEventListener('click', async () => {
+            if (!deleteId) return;
+            try {
+                await fetch(`${API}/${deleteId}`, { method: 'DELETE', headers: { 'Authorization': `Bearer ${token}` } });
+                deleteSound();
+                showToast('🗑️ تم الحذف بنجاح');
+                closeDeleteModal();
+                loadAppointments();
+            } catch (e) { showToast('❌ فشل الحذف'); closeDeleteModal(); }
+        });
+
+        // تصدير Excel
+        function exportToExcel() {
+            if (filteredAppointments.length === 0) {
+                showToast('⚠️ لا توجد بيانات للتصدير');
+                return;
+            }
+            const ws = XLSX.utils.json_to_sheet(filteredAppointments.map(a => ({
+                الاسم: a.patient_name, الهاتف: a.phone, الخدمة: a.service, التاريخ: a.date, الوقت: a.time, الحالة: a.status
+            })));
+            const wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, "المواعيد");
+            XLSX.writeFile(wb, "عيادة-المواعيد.xlsx");
+            showToast('📊 تم التصدير بنجاح');
+        }
+
+        // تحديث تلقائي
+        let countdown = 5;
+        function startAutoRefresh() {
+            stopAutoRefresh();
+            countdown = 5;
+            updateRefreshTimer();
+            refreshIntervalId = setInterval(() => {
+                countdown--;
+                if (countdown <= 0) {
+                    loadAppointments();
+                    countdown = 5;
+                }
+                updateRefreshTimer();
+            }, 1000);
+        }
+        function updateRefreshTimer() {
+            document.getElementById('refreshTimer').textContent = `تحديث تلقائي كل ${countdown} ثوانٍ`;
+        }
+        function stopAutoRefresh() {
+            if (refreshIntervalId) clearInterval(refreshIntervalId);
+        }
+
+        // Event listeners
+        document.getElementById('searchInput').addEventListener('input', () => { currentPage = 1; applyFilters(); });
+        document.getElementById('dateFilter').addEventListener('change', () => { currentPage = 1; applyFilters(); });
+        document.getElementById('tokenInput').addEventListener('keypress', (e) => { if (e.key === 'Enter') login(); });
+
+        // بدء تلقائي
+        initTheme();
+        const savedToken = localStorage.getItem('adminToken');
+        if (savedToken) {
+            token = savedToken;
+            document.getElementById('loginPage').classList.add('hidden');
+            document.getElementById('dashboard').classList.remove('hidden');
+            loadAppointments();
+            startAutoRefresh();
+        }
+        // ---------- دوال حذف جميع البيانات ----------
+        let deleteAllCountdownInterval = null;
+
+        function openDeleteAllModal() {
+            document.getElementById('deleteAllModal').classList.remove('hidden');
+            const btn = document.getElementById('finalDeleteBtn');
+            btn.disabled = true;
+            let seconds = 5;
+            document.getElementById('deleteCountdown').textContent = seconds;
+            // إيقاف أي مؤقت سابق
+            if (deleteAllCountdownInterval) clearInterval(deleteAllCountdownInterval);
+            deleteAllCountdownInterval = setInterval(() => {
+                seconds--;
+                document.getElementById('deleteCountdown').textContent = seconds;
+                if (seconds <= 0) {
+                    clearInterval(deleteAllCountdownInterval);
+                    btn.disabled = false;
+                    document.getElementById('deleteCountdown').textContent = "0";
+                }
+            }, 1000);
+        }
+
+        function closeDeleteAllModal() {
+            document.getElementById('deleteAllModal').classList.add('hidden');
+            if (deleteAllCountdownInterval) clearInterval(deleteAllCountdownInterval);
+        }
+
+        async function executeDeleteAll() {
+            closeDeleteAllModal();
+            if (!allAppointments.length) {
+                showToast('⚠️ لا توجد مواعيد لحذفها');
+                return;
+            }
+            const total = allAppointments.length;
+            showToast(`⏳ جاري حذف ${total} موعد...`);
+            // تعطيل بعض الأزرار أثناء الحذف (اختياري)
+            let deleted = 0;
+            for (const app of allAppointments) {
+                try {
+                    await fetch(`${API}/${app.id}`, {
+                        method: 'DELETE',
+                        headers: { 'Authorization': `Bearer ${token}` }
+                    });
+                    deleted++;
+                } catch (e) {
+                    console.error('فشل حذف الموعد', app.id, e);
+                }
+            }
+            showToast(`✅ تم حذف ${deleted} من أصل ${total} موعد`);
+            loadAppointments(); // إعادة تحميل القائمة
+        }
+        showTableView();
+    </script>
+</body>
+
+</html>
