@@ -1,5 +1,6 @@
-const Database = require('better-sqlite3');
-const path = require('path');
+const sqlite3 = require('sqlite3').verbose();
+const db = new sqlite3.Database('clinic.db');
+
 
 const dbPath = path.join(__dirname, 'clinic.db');
 const db = new Database(dbPath);
