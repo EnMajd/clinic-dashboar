@@ -1,12 +1,20 @@
+const path = require('path');
 const sqlite3 = require('sqlite3').verbose();
-const db = new sqlite3.Database('clinic.db');
 
-
+// تحديد مسار قاعدة البيانات
 const dbPath = path.join(__dirname, 'clinic.db');
-const db = new Database(dbPath);
 
-// إعداد الجداول
-db.exec(`
+// إنشاء اتصال بقاعدة البيانات
+const db = new sqlite3.Database(dbPath, (err) => {
+  if (err) {
+    console.error('Error connecting to SQLite database:', err.message);
+  } else {
+    console.log('Connected to SQLite database.');
+  }
+});
+
+// إنشاء جدول المواعيد إذا لم يكن موجودًا
+db.run(`
   CREATE TABLE IF NOT EXISTS appointments (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     patient_name TEXT NOT NULL,
@@ -14,16 +22,9 @@ db.exec(`
     service TEXT NOT NULL,
     date TEXT NOT NULL,
     time TEXT NOT NULL,
-    status TEXT DEFAULT 'جديد',
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-  );
-
-  CREATE TABLE IF NOT EXISTS xray_reports (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    original_name TEXT,
-    report TEXT,
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-  );
+    status TEXT DEFAULT 'pending',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+  )
 `);
 
 module.exports = db;
