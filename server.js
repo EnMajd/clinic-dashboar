@@ -47,3 +47,12 @@ app.listen(PORT, () => {
 });
 // update to trigger deploy
 
+app.post('/api/check-password', (req, res) => {
+    const { password } = req.body;
+
+    if (password === process.env.ADMIN_PASSWORD) {
+        return res.json({ success: true });
+    }
+
+    res.json({ success: false });
+});
