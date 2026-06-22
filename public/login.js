@@ -40,7 +40,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (data.success) {
                 // تخزين رمز الدخول في المتصفح
-                localStorage.setItem('adminToken', 'OK');
+                // localStorage.setItem('adminToken', 'OK');
+                localStorage.setItem('adminToken', enteredPassword);
+
                 // توجيه إلى لوحة التحكم
                 window.location.href = '/admin.html';
             } else {

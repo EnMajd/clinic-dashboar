@@ -1898,6 +1898,13 @@
             showToast(`✅ تم حذف ${deleted} من أصل ${total} موعد`);
             loadAppointments(); // إعادة تحميل القائمة
         }
+        const token = localStorage.getItem('adminToken');
+
+        fetch('/api/appointments', {
+            headers: {
+                'x-admin-token': token
+            }
+        })
         showTableView();
     </script>
 </body>
