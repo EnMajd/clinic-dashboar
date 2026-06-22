@@ -5,7 +5,21 @@ const cors = require('cors');
 const path = require('path');
 
 const app = express();
+const pool = require('./database');
 const PORT = process.env.PORT || 3000;
+pool.query(`
+  CREATE TABLE IF NOT EXISTS appointments (
+    id SERIAL PRIMARY KEY,
+    patient_name TEXT NOT NULL,
+    phone TEXT NOT NULL,
+    service TEXT NOT NULL,
+    date TEXT NOT NULL,
+    time TEXT NOT NULL,
+    status TEXT DEFAULT 'pending',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+  )
+`);
+
 
 // وسائط
 app.use(cors());
