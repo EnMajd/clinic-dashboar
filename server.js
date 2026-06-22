@@ -31,3 +31,5 @@ app.listen(PORT, () => {
   console.log(`✅ السيرفر يعمل على http://localhost:${PORT}`);
   console.log(`🔗 لوحة التحكم: http://localhost:${PORT}/admin.html`);
 });
+// update to trigger deploy
+
